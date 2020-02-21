@@ -769,6 +769,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 5
+  xMin: -16
+  xMax: 16
+  zMin: -16
+  zMax: 16
 --- !u!54 &1225356125
 Rigidbody:
   m_ObjectHideFlags: 0

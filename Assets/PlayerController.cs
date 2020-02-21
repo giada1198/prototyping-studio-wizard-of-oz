@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float movementSpeed;
+    public float xMin, xMax, zMin, zMax;
+    float smooth = 5.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -24,10 +26,27 @@ public class PlayerController : MonoBehaviour
     {
         float _horizontal = Input.GetAxis("Horizontal");
         float _vertical = Input.GetAxis("Vertical");
+        print(_horizontal);
+        transform.Translate(Vector3.forward*movementSpeed*Time.deltaTime);
+        // Vector3 _movement = new Vector3(_horizontal, 0, _vertical);
+        // _movement = Quaternion.Euler(0, 90, 0) * _movement;
+        // transform.Translate(_movement*movementSpeed*Time.deltaTime, Space.World);
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, xMin, xMax), 0, Mathf.Clamp(transform.position.z, zMin, zMax));
+        
+        if (Input.GetKey("right")){
+            transform.eulerAngles += new Vector3(0, -9, 0);
+        }
+        if (Input.GetKey("left")){
+            transform.eulerAngles += new Vector3(0, 9, 0);
+        }
 
-        Vector3 _movement = new Vector3(_horizontal, 0, _vertical);
-        _movement = Quaternion.Euler(0, 90, 0) * _movement;
-        transform.Translate(_movement*movementSpeed*Time.deltaTime, Space.World); 
+        // Rotate the cube by converting the angles into a quaternion.
+        // Quaternion target = Quaternion.Euler(0, tiltAroundY, 0);
+        // Dampen towards the target rotation
+        // transform.rotation = Quaternion.Slerp(transform.rotation, target,  Time.deltaTime * smooth);
+    
+    
+    
     }
 
     void HandleRotationInput()
@@ -37,7 +56,7 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(_ray, out _hit))
         {
-            transform.LookAt(new Vector3(Mathf.Abs(_hit.point.x), transform.position.y, _hit.point.z));
+            // transform.LookAt(new Vector3(_hit.point.x, transform.position.y, _hit.point.z));
         }
     }
 
